@@ -42,14 +42,16 @@ directory node['mongodb3']['config']['mongod']['storage']['dbPath'] do
   action :create
   recursive true
 end
-
+ 
 # Create the systemLog directory.
-directory File.dirname(node['mongodb3']['config']['mongod']['systemLog']['path']).to_s do
-  owner node['mongodb3']['user']
-  group node['mongodb3']['group']
-  mode '0755'
-  action :create
-  recursive true
+unless node['mongodb3']['config']['mongod']['systemLog']['path'].nil?
+ directory File.dirname(node['mongodb3']['config']['mongod']['systemLog']['path']).to_s do
+   owner node['mongodb3']['user']
+   group node['mongodb3']['group']
+   mode '0755'
+   action :create
+   recursive true
+ end
 end
 
 unless node['mongodb3']['config']['key_file_content'].to_s.empty?
